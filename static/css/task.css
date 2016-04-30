@@ -12,10 +12,10 @@
  #category-table tbody tr > td.success {
      background-color: #8cbfee !important;
 }
-#todo-table {
+#task-table {
     max-width: 1000px;
 }
-#todo-table tbody tr.success {
+#task-table tbody tr.success {
     background-color: #8cbfee !important;
 }
 form {

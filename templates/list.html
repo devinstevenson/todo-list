@@ -9,7 +9,7 @@
                     {%- for category in categories %}
                         <tr>
                             <td>
-                                <a href="{{ url_for('list_todos', name=category.name) }}">{{ category.name }}</a>
+                                <a href="{{ url_for('list_tasks', name=category.name) }}">{{ category.name }}</a>
                             </td>
                             <td>
                                 <a class="btn btn-sm btn-default"
@@ -31,9 +31,9 @@
             </div>
         </div>
         <div class="col-md-9">
-            {% if todos|count > 0 %}
-                <h3 class="lead">Todos</h3>
-                <table id="todo-table" class="table">
+            {% if tasks|count > 0 %}
+                <h3 class="lead">Tasks</h3>
+                <table id="task-table" class="table">
                     <tr>
                         <th>#</th>
                         <th>Description</th>
@@ -42,32 +42,32 @@
                         <th>Creation date</th>
                         <th>Actions</th>
                     </tr>
-                    {%- for todo in todos %}
-                        <tr {% if todo.is_done %}class="success"{% endif %}>
+                    {%- for task in tasks %}
+                        <tr {% if task.is_done %}class="success"{% endif %}>
                             <td> {{ loop.index }} </td>
-                            <td {% if todo.is_done %}style="text-decoration:line-through"{% endif %}>{{ todo.description }}</td>
-                            <td>{{ todo.category.name }}</td>
-                            {#<td>{{ todo.priority.name }}</td>#}
-                            <td>{{ todo.creation_date }}</td>
+                            <td {% if task.is_done %}style="text-decoration:line-through"{% endif %}>{{ task.description }}</td>
+                            <td>{{ task.category.name }}</td>
+                            {#<td>{{ task.priority.name }}</td>#}
+                            <td>{{ task.creation_date }}</td>
                             <td>
-                                <a class="btn btn-xs btn-default{% if todo.is_done %} disabled{% endif %}"
-                                   href="{{ url_for('update_todo', todo_id=todo.id) }}">{{ icon('edit') }}
+                                <a class="btn btn-xs btn-default{% if task.is_done %} disabled{% endif %}"
+                                   href="{{ url_for('update_task', task_id=task.id) }}">{{ icon('edit') }}
                                     Edit</a>
                                 <form id=delform
-                                      action="{{ url_for('delete_todo', todo_id=todo.id) }}"
+                                      action="{{ url_for('delete_task', task_id=task.id) }}"
                                       method="post">
-                                    {#<input class="btn btn-xs btn-danger" type="submit" name="delete_todo" value="Delete">#}
+                                    {#<input class="btn btn-xs btn-danger" type="submit" name="delete_task" value="Delete">#}
                                     <a onclick="$('#delform').submit();"
-                                       class="btn btn-xs btn-danger" id="delete_todo"
+                                       class="btn btn-xs btn-danger" id="delete_task"
                                        href="#">{{ icon('trash') }} Delete</a>
                                 </form>
                                 <form id=isdone
-                                      action="{{ url_for('mark_done', todo_id=todo.id) }}"
+                                      action="{{ url_for('mark_done', task_id=task.id) }}"
                                       method="post">
-                                    {#<input class="btn btn-xs btn-default" type="submit" name="mark_done" value="Done"{% if todo.is_done %} disabled{% endif %}>#}
+                                    {#<input class="btn btn-xs btn-default" type="submit" name="mark_done" value="Done"{% if task.is_done %} disabled{% endif %}>#}
                                     <a onclick="$('#isdone').submit()"
                                        class="btn btn-xs btn-default" id="mark_done"
-                                            {% if todo.is_done %}
+                                            {% if task.is_done %}
                                        disabled{% endif %}>{{ icon('check') }} Done</a>
                                 </form>
                             </td>
@@ -75,7 +75,7 @@
                     {%- endfor %}
                 </table>
             {% else %}
-                <h3 class=lead>No Todos Yet</h3>
+                <h3 class=lead>No Tasks Yet</h3>
             {% endif %}
         </div>
     </div>

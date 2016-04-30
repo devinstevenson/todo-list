@@ -3,7 +3,7 @@
 <head>
     {% block head %}
         <meta charset="UTF-8">
-        <title>My TODO list</title>
+        <title>My Task List</title>
     {% endblock %}
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
@@ -16,7 +16,7 @@
             $('.selectpicker').selectpicker();
         })
     </script>
-    <link rel="stylesheet" href="/static/css/todo.css">
+    <link rel="stylesheet" href="/static/css/task.css">
 
 </head>
 <body>
@@ -27,13 +27,13 @@
                     data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Toggle navigation</span>
             </button>
-            <a class="navbar-brand" href="/">TODO-APP</a>
+            <a class="navbar-brand" href="/">Task-App</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li {% if page == 'new-task' %} class="active" {% endif %}><a href="/new-task">New TODO<span
+                <li {% if page == 'new-task' %} class="active" {% endif %}><a href="/new-task">New Task<span
                         class="sr-only">(current)</span></a></li>
                 <li><a href="/new-category">New Category</a></li>
             </ul>
@@ -58,7 +58,7 @@
 <footer id="footer">
     <div class="container">
         <hr>
-        <p class="text-center">Todo App built using Flask, SQLAlchemy, PostgreSQL and Bootstrap</p>
+        <p class="text-center">Task App built using Flask, SQLAlchemy, PostgreSQL and Bootstrap</p>
     </div>
 </footer>
 

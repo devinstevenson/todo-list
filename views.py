@@ -1,65 +1,56 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
-from models import Category, Todo, Priority, db
+from models import Category, Task, Priority, db
 
 
 @app.route('/')
 def list_all():
-    return render_template(
-        'list.html',
-        categories=Category.query.all(),
-        todos=Todo.query.all(),  # join(Priority).order_by(Priority.value.desc())
-    )
-
+    return render_template('list.html',
+                           categories=Category.query.all(),
+                           tasks=Task.query.all())
+    # join(Priority).order_by(Priority.value.desc())
 
 @app.route('/<name>')
-def list_todos(name):
+def list_tasks(name):
     category = Category.query.filter_by(name=name).first()
-    return render_template(
-        'list.html',
-        todos=Todo.query.filter_by(category=category).all(),  # .join(Priority).order_by(Priority.value.desc()),
-        categories=Category.query.all())
-
+    tasks = Task.query.filter_by(category=category).all(),
+    # .join(Priority).order_by(Priority.value.desc()),
+    return render_template('list.html', tasks=tasks, categories=Category.query.all())
 
 @app.route('/new-task', methods=['GET', 'POST'])
-def new():
+def new_task():
     if request.method == 'POST':
         category = Category.query.filter_by(id=request.form['category']).first()
         # priority = Priority.query.filter_by(id=request.form['priority']).first()
-        # todo = Todo(category=category, priority=priority, description=request.form['description'])
-        todo = Todo(category=category, description=request.form['description'])
-        db.session.add(todo)
+        # task = Task(category=category, priority=priority, description=request.form['description'])
+        task = Task(category=category, description=request.form['description'])
+        db.session.add(task)
         db.session.commit()
         return redirect(url_for('list_all'))
     else:
-        return render_template(
-            'new-task.html',
-            page='new-task',
-            categories=Category.query.all(),
-            # priorities=Priority.query.all()
+        return render_template('new-task.html',
+                               page='new-task',
+                               categories=Category.query.all(),
+                               # priorities=Priority.query.all()
         )
 
-
-@app.route('/<int:todo_id>', methods=['GET', 'POST'])
-def update_todo(todo_id):
-    todo = Todo.query.get(todo_id)
+@app.route('/<int:task_id>', methods=['GET', 'POST'])
+def update_task(task_id):
+    task = Task.query.get(task_id)
     if request.method == 'GET':
-        return render_template(
-            'new-task.html',
-            todo=todo,
-            categories=Category.query.all(),
-            # priorities=Priority.query.all()
-        )
+        return render_template('new-task.html', task=task,
+                               categories=Category.query.all())
+        # priorities=Priority.query.all()
+
     else:
         category = Category.query.filter_by(id=request.form['category']).first()
         # priority = Priority.query.filter_by(id=request.form['priority']).first()
         description = request.form['description']
-        todo.category = category
-        # todo.priority = priority
-        todo.description = description
+        task.category = category
+        # task.priority = priority
+        task.description = description
         db.session.commit()
         return redirect('/')
-
 
 @app.route('/new-category', methods=['GET', 'POST'])
 def new_category():
@@ -69,51 +60,43 @@ def new_category():
         db.session.commit()
         return redirect('/')
     else:
-        return render_template(
-            'new-category.html',
-            page='new-category.html')
-
+        return render_template('new-category.html', page='new-category.html')
 
 @app.route('/edit_category/<int:category_id>', methods=['GET', 'POST'])
 def edit_category(category_id):
     category = Category.query.get(category_id)
     if request.method == 'GET':
-        return render_template(
-            'new-category.html',
-            category=category)
+        return render_template('new-category.html', category=category)
     else:
         category_name = request.form['category']
         category.name = category_name
         db.session.commit()
         return redirect('/')
 
-
 @app.route('/delete-category/<int:category_id>', methods=['POST'])
 def delete_category(category_id):
     if request.method == 'POST':
         category = Category.query.get(category_id)
-        todo = Todo.query.filter_by(category_id=category_id)
-        if not todo.first():
+        task = Task.query.filter_by(category_id=category_id)
+        if not task.first():
             db.session.delete(category)
             db.session.commit()
         else:
-            flash('You have TODOs in that category. Remove them first.')
+            flash('You have Tasks in that category. Remove them first.')
         return redirect('/')
 
-
-@app.route('/delete-todo/<int:todo_id>', methods=['POST'])
-def delete_todo(todo_id):
+@app.route('/delete-task/<int:task_id>', methods=['POST'])
+def delete_task(task_id):
     if request.method == 'POST':
-        todo = Todo.query.get(todo_id)
-        db.session.delete(todo)
+        task = Task.query.get(task_id)
+        db.session.delete(task)
         db.session.commit()
         return redirect('/')
 
-
-@app.route('/mark-done/<int:todo_id>', methods=['POST'])
-def mark_done(todo_id):
+@app.route('/mark-done/<int:task_id>', methods=['POST'])
+def mark_done(task_id):
     if request.method == 'POST':
-        todo = Todo.query.get(todo_id)
-        todo.is_done = True
+        task = Task.query.get(task_id)
+        task.is_done = True
         db.session.commit()
         return redirect('/')

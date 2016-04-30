@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 {% block content %}
     <form action="" method=post>
-        <h2>{%- if todo is defined %} Edit {% else %} Create new {% endif -%}Todo</h2>
+        <h2>{%- if task is defined %} Edit {% else %} Create new {% endif -%}Todo</h2>
         <div class="control-group">
             <div class="control-group">
                 <div class="controls">
                     <select class="selectpicker" name="category" required>
                         {% for category in categories %}
-                            <option value="{{ category.id }}"{% if todo is defined %}
-                                {% if todo.category_id == category.id %} selected
+                            <option value="{{ category.id }}"{% if task is defined %}
+                                {% if task.category_id == category.id %} selected
                                 {% endif %}{% endif %}>{{ category.name }}</option>
                         {% endfor %}
                     </select>
@@ -20,7 +20,7 @@
                 <div class="controls">
                     <select class="selectpicker" name="priority" required>
                         {% for priority in priorities %}
-                                <option value="{{ priority.id }}" {% if todo is defined %}{% if todo.priority_id == priority.id %} selected {% endif %}{% endif %}>{{ priority.name }}</option>
+                                <option value="{{ priority.id }}" {% if task is defined %}{% if task.priority_id == priority.id %} selected {% endif %}{% endif %}>{{ priority.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -36,8 +36,8 @@
                             maxlength="60"
                             class="form-control input-xlarge"
                             placeholder="Describe TODO"
-                            {% if todo is defined -%}
-                            value="{{ todo.description }}"
+                            {% if task is defined -%}
+                            value="{{ task.description }}"
                             {% endif -%}
                             required
                     />
@@ -48,7 +48,7 @@
         <div class="control-group">
             <div class="controls">
                 <button type="submit" class="btn btn-success">
-                    {% if todo %}
+                    {% if task %}
                         Save
                     {% else %}
                         Create Todo

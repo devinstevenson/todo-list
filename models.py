@@ -5,8 +5,8 @@ db = SQLAlchemy(app)
 # http://www.vertabelo.com/blog/technical-articles/web-app-development-with-flask-sqlalchemy-bootstrap-part-2
 
 
-class Todo (db.Model):
-    __tablename__ = "todo"
+class Task(db.Model):
+    __tablename__ = "task"
     id = db.Column('id', db.Integer, primary_key=True)
     category_id = db.Column('category_id', db.Integer, db.ForeignKey('category.id'))
     priority_id = db.Column('priority_id', db.Integer, db.ForeignKey('priority.id'))
@@ -18,14 +18,14 @@ class Todo (db.Model):
     category = db.relationship('Category', foreign_keys=category_id)
 
 
-class Priority (db.Model):
+class Priority(db.Model):
     __tablename__ = "priority"
     id = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
     value = db.Column('value', db.Integer)
 
 
-class Category (db.Model):
+class Category(db.Model):
     __tablename__ = "category"
     id = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.Unicode)
