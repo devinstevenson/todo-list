@@ -1,4 +1,5 @@
-from flask_script import Manager, fcommands
+from flask.ext.script import Manager
+from flask.ext.migrate import Migrate, MigrateCommand
 from app import app
 
 manager = Manager(app)
