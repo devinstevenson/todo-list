@@ -1,5 +1,6 @@
 argparse==1.2.1
 Flask==0.10.1
+Flask-Migrate
 flask-script
 Flask-SQLAlchemy==2.0
 gunicorn==19.3.0
