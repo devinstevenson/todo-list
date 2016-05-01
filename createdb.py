@@ -1,5 +1,5 @@
 from app import app
-from models import db, Category, Priority, Todo
+from models import db, Category, Priority, Task
 
 db.create_all()
 
@@ -19,7 +19,7 @@ db.session.add(medium)
 db.session.add(low)
 db.session.commit()
 
-todo = Todo(category_id=1, priority_id=2, description=u'Read Email')
+todo = Task(category_id=1, priority_id=2, description=u'Read Email')
 db.session.add(todo)
 db.session.commit()
 
